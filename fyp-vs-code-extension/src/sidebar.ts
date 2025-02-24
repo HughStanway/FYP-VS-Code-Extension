@@ -51,7 +51,7 @@ export class Sidebar implements vscode.WebviewViewProvider {
                     this._view?.webview.postMessage({ command: 'showOriginal' });
                 }
             } else if (message.command === "error") {
-                vscode.window.showInformationMessage(`${message.text}`);
+                vscode.window.showInformationMessage(`Code Search Error: ${message.text}`);
             }
         },
         undefined,

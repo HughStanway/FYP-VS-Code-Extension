@@ -39,7 +39,7 @@ function handleButtonClick() {
     if (inputText) {
         vscode.postMessage({ command: 'query', inputText: inputText });
     } else {
-        vscode.postMessage({ command: 'error', text: 'Please enter a code snippet' });
+        vscode.postMessage({ command: 'error', text: 'Enter a code snippet' });
     }
 }
 
