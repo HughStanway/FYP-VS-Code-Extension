@@ -158,7 +158,7 @@ function getNonce() {
 async function setupQuery(inputText: string): Promise<any> {
   const timeout = new Promise<void>((_, reject) => {
     setTimeout(() => {
-      reject(new Error("Operation timed out"));
+      reject(new Error("Request timed out"));
     }, 10000);
   });
 
@@ -172,7 +172,7 @@ async function setupQuery(inputText: string): Promise<any> {
 async function setupCreate(collectionName: string): Promise<any> {
   const timeout = new Promise<void>((_, reject) => {
     setTimeout(() => {
-      reject(new Error("Operation timed out"));
+      reject(new Error("Request timed out"));
     }, 10000);
   });
 
@@ -186,7 +186,7 @@ async function setupCreate(collectionName: string): Promise<any> {
 async function setupInsert(repositories: Array<{ repository: string; commit: string }>): Promise<any> {
   const timeout = new Promise<void>((_, reject) => {
     setTimeout(() => {
-      reject(new Error("Operation timed out"));
+      reject(new Error("Request timed out"));
     }, 10000);
   });
 

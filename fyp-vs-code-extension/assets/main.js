@@ -1,26 +1,22 @@
 const vscode = acquireVsCodeApi();
 
-/* 
-    Assign event listeners for extension sidebar content
-*/
 document.addEventListener("DOMContentLoaded", () => {
     setupAutoExpand();
     setupButtonClickListener();
 });
 
-/* 
-    Automatically expand the vertical size of the input box so that
-    it always fits the entire text content without needing to scroll
-*/
+document.addEventListener('click', (event) => {
+    if (event.target?.classList.contains('back-button')) {
+      showOriginalView();
+    }
+});
+
 function autoExpand(event) {
     const textarea = event.target;
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
 }
 
-/* 
-    Setup Auto Expand function
-*/
 function setupAutoExpand() {
     const textarea = document.querySelector('.text-input');
     if (textarea) {
@@ -30,9 +26,6 @@ function setupAutoExpand() {
     }
 }
 
-/* 
-    Generalized Button Click Handler
-*/
 function handleButtonClick(command, inputValue, errorMessage) {
     if (inputValue) {
         vscode.postMessage({ command, [command === 'query' ? 'inputText' : 'collectionName']: inputValue });
@@ -41,25 +34,16 @@ function handleButtonClick(command, inputValue, errorMessage) {
     }
 }
 
-/* 
-    Handle Search Button Click
-*/
 function handleSearchButtonClick() {
     const inputText = document.querySelector('.text-input').value;
     handleButtonClick('query', inputText, 'Enter a code snippet');
 }
 
-/*
-    Handle Submit Create Collection Button Click
-*/
 function handleSubmitCreateButtonClick() {
     const collectionName = document.querySelector('.create-input').value;
     handleButtonClick('create', collectionName, 'Enter a collection name');
 }
 
-/*
-    Handle Submit Insert Collection Button Click
-*/
 function handleSubmitInsertButtonClick() {
     const repoList = document.getElementById('repo-list');
     const repoItems = repoList.querySelectorAll('li');
@@ -81,9 +65,6 @@ function handleSubmitInsertButtonClick() {
     }
 }
 
-/* 
-    Setup Event Listeners for buttons
-*/
 function setupButtonClickListener() {
     const buttons = [
         { selector: '.search-button', handler: handleSearchButtonClick },
@@ -119,18 +100,6 @@ function setupButtonClickListener() {
     }
 }
 
-/* 
-    General event listener for back to home button
-*/
-document.addEventListener('click', (event) => {
-    if (event.target?.classList.contains('back-button')) {
-      showOriginalView();
-    }
-});
-
-/* 
-    Listener to manage view updates
-*/
 window.addEventListener('message', (event) => {
     const message = event.data;
     switch (message.command) {
@@ -146,9 +115,6 @@ window.addEventListener('message', (event) => {
     }
 });
 
-/* 
-    Functions to manage switching between views
-*/
 function toggleViews(activeView) {
     const views = ['original', 'loading', 'results', 'create', 'insert'];
     views.forEach(view => {
