@@ -4,7 +4,7 @@
   "description": "",
   "version": "0.0.1",
   "engines": {
-    "vscode": "1.97.2"
+    "vscode": "1.98.0"
   },
   "categories": [
     "Other"
@@ -37,11 +37,12 @@
       "properties": {
         "codeSearch.url": {
           "type": "string",
-          "default": "http://localhost",
+          "default": "http://hstanway-fyp.cs.ucl.ac.uk",
           "description": "API Endpoint URL"
         },
         "codeSearch.collection": {
           "type": "string",
+          "default": "DefaultCollection",
           "description": "Set the Collection name you would like to query"
         }
       }

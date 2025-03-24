@@ -2,8 +2,8 @@
 	--container-paddding: 20px;
 	--input-padding-vertical: 6px;
 	--input-padding-horizontal: 4px;
-	--input-margin-vertical: 4px;
-	--input-margin-horizontal: 0;
+	--input-margin-vertical: 12px;
+	--input-margin-horizontal: 20px;
 }
 
 body {
@@ -91,11 +91,31 @@ textarea::placeholder {
 }
 
 .text-input {
-	margin-top: 15px;
+	max-width: 90%;
+	margin: 15px auto;
+    display: block;
     overflow-y: hidden;
     resize: none;
 }
 
 [class$="-button"] {
-    margin-top: 10px;
+	max-width: 100%;
+	margin: 15px auto;
+    display: block;
+}
+
+#repo-list li {
+    max-width: 90%;
+	margin: 15px auto;
+	display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.create-input{
+	max-width: 90%;
+	margin: 15px auto;
+    display: block;
+    overflow-y: hidden;
+    resize: none;
 }
