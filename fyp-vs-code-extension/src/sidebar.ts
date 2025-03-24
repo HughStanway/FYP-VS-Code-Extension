@@ -100,7 +100,7 @@ export class Sidebar implements vscode.WebviewViewProvider {
                 <ul id="repo-list">
                   <li>
                     <input class="repo-input" type="text" placeholder="Repository Name">
-                    <input type="text" placeholder="Commit Hash">
+                    <input class="repo-input" type="text" placeholder="Commit Hash">
                   </li>
                 </ul>
                 <button class="add-repo-button">Add another repository</button>

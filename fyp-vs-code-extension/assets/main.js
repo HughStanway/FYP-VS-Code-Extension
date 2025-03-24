@@ -93,8 +93,8 @@ function setupButtonClickListener() {
     function addRepoItem() {
         const newListItem = document.createElement('li');
         newListItem.innerHTML = `
-            <input type="text" placeholder="Repository Name">
-            <input type="text" placeholder="Commit Hash">
+            <input class="repo-input" type="text" placeholder="Repository Name">
+            <input class="repo-input" type="text" placeholder="Commit Hash">
         `;
         document.getElementById('repo-list').appendChild(newListItem);
     }

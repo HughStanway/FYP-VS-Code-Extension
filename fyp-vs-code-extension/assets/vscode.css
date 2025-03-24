@@ -104,12 +104,26 @@ textarea::placeholder {
     display: block;
 }
 
-#repo-list li {
-    max-width: 90%;
-	margin: 15px auto;
+#repo-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
 	display: flex;
-    align-items: center;
-    gap: 10px;
+	flex-direction: column;
+	align-items: center;
+  }
+  
+#repo-list li {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	width: 90%;
+	margin-top: 15px;
+}
+
+.repo-input {
+	width: 200px;
+	padding: 8px;
 }
 
 .create-input{
