@@ -1,16 +1,15 @@
-/*
-    Use VSCode API
-*/
 const vscode = acquireVsCodeApi();
 
-/*
+/* 
     Assign event listeners for extension sidebar content
 */
-document.addEventListener("DOMContentLoaded", setupAutoExpand);
-document.addEventListener("DOMContentLoaded", setupButtonClickListener);
+document.addEventListener("DOMContentLoaded", () => {
+    setupAutoExpand();
+    setupButtonClickListener();
+});
 
 /* 
-    Automatically extand the vertical size of the input box so that
+    Automatically expand the vertical size of the input box so that
     it always fits the entire text content without needing to scroll
 */
 function autoExpand(event) {
@@ -32,15 +31,22 @@ function setupAutoExpand() {
 }
 
 /* 
+    Generalized Button Click Handler
+*/
+function handleButtonClick(command, inputValue, errorMessage) {
+    if (inputValue) {
+        vscode.postMessage({ command, [command === 'query' ? 'inputText' : 'collectionName']: inputValue });
+    } else {
+        vscode.postMessage({ command: 'error', text: errorMessage });
+    }
+}
+
+/* 
     Handle Search Button Click
 */
-function handleButtonClick() {
+function handleSearchButtonClick() {
     const inputText = document.querySelector('.text-input').value;
-    if (inputText) {
-        vscode.postMessage({ command: 'query', inputText: inputText });
-    } else {
-        vscode.postMessage({ command: 'error', text: 'Enter a code snippet' });
-    }
+    handleButtonClick('query', inputText, 'Enter a code snippet');
 }
 
 /*
@@ -48,11 +54,7 @@ function handleButtonClick() {
 */
 function handleSubmitCreateButtonClick() {
     const collectionName = document.querySelector('.create-input').value;
-    if (collectionName) {
-        vscode.postMessage({ command: 'create', collectionName: collectionName });
-    } else {
-        vscode.postMessage({ command: 'error', text: 'Enter a collection name' });
-    }
+    handleButtonClick('create', collectionName, 'Enter a collection name');
 }
 
 /*
@@ -61,70 +63,46 @@ function handleSubmitCreateButtonClick() {
 function handleSubmitInsertButtonClick() {
     const repoList = document.getElementById('repo-list');
     const repoItems = repoList.querySelectorAll('li');
-    const repositories = [];
-    
-    repoItems.forEach(item => {
-        const repoInput = item.querySelector('input[placeholder="Repository Name"]');
-        const commitInput = item.querySelector('input[placeholder="Commit Hash"]');
-        const repoName = repoInput ? repoInput.value : '';
-        const commitHash = commitInput ? commitInput.value : '';
-
-        // Only add to the list if both values are non-empty
-        if (repoName && commitHash) {
-            repositories.push({ repository: repoName, commit: commitHash });
-        }
-    });
+    const repositories = Array.from(repoItems)
+        .map(item => {
+            const repoInput = item.querySelector('input[placeholder="Repository Name"]');
+            const commitInput = item.querySelector('input[placeholder="Commit Hash"]');
+            return {
+                repository: repoInput ? repoInput.value : '',
+                commit: commitInput ? commitInput.value : ''
+            };
+        })
+        .filter(({ repository, commit }) => repository && commit);
 
     if (repositories.length === 0) {
         vscode.postMessage({ command: 'error', text: 'Insert at least one repository and commit' });
     } else {
-        vscode.postMessage({ command: 'insert', repositories: repositories });
+        vscode.postMessage({ command: 'insert', repositories });
     }
 }
 
-
 /* 
-    Setup Search Button function
+    Setup Event Listeners for buttons
 */
 function setupButtonClickListener() {
-    const searchButton = document.querySelector('.search-button');
-    const createButton = document.querySelector('.create-button');
-    const insertButton = document.querySelector('.insert-button');
-    const submitCreateButton = document.querySelector('.submit-create-button');
-    const submitInsertButton = document.querySelector('.submit-insert-button');
-    const addRepoButton = document.querySelector('.add-repo-button');
-    const repoList = document.getElementById('repo-list');
+    const buttons = [
+        { selector: '.search-button', handler: handleSearchButtonClick },
+        { selector: '.create-button', handler: () => showCreateView() },
+        { selector: '.insert-button', handler: () => { resetRepoList(); showInsertView(); } },
+        { selector: '.submit-create-button', handler: handleSubmitCreateButtonClick },
+        { selector: '.submit-insert-button', handler: handleSubmitInsertButtonClick },
+        { selector: '.add-repo-button', handler: addRepoItem }
+    ];
 
-    if (searchButton) {
-        searchButton.addEventListener('click', handleButtonClick);
-    }
-
-    if (createButton) {
-        createButton.addEventListener('click', () => {
-            showCreateView();
-        });
-    }
-    
-    if (insertButton) {
-        insertButton.addEventListener('click', () => {
-            resetRepoList();
-            showInsertView();
-        });
-    }
-
-    if (submitCreateButton) {
-        submitCreateButton.addEventListener('click', handleSubmitCreateButtonClick);
-    }
-
-    if (submitInsertButton) {
-        submitInsertButton.addEventListener('click', handleSubmitInsertButtonClick);
-    }
-
-    if (addRepoButton && repoList) {
-        addRepoButton.addEventListener('click', addRepoItem);
-    }
+    buttons.forEach(({ selector, handler }) => {
+        const button = document.querySelector(selector);
+        if (button) {
+            button.addEventListener('click', handler);
+        }
+    });
 
     function resetRepoList() {
+        const repoList = document.getElementById('repo-list');
         if (repoList) {
             repoList.innerHTML = '';
             addRepoItem();
@@ -137,7 +115,7 @@ function setupButtonClickListener() {
             <input type="text" placeholder="Repository Name">
             <input type="text" placeholder="Commit Hash">
         `;
-        repoList.appendChild(newListItem);
+        document.getElementById('repo-list').appendChild(newListItem);
     }
 }
 
@@ -145,10 +123,10 @@ function setupButtonClickListener() {
     General event listener for back to home button
 */
 document.addEventListener('click', (event) => {
-    if (event.target && event.target.classList.contains('back-button')) {
+    if (event.target?.classList.contains('back-button')) {
       showOriginalView();
     }
-  });
+});
 
 /* 
     Listener to manage view updates
@@ -171,30 +149,24 @@ window.addEventListener('message', (event) => {
 /* 
     Functions to manage switching between views
 */
+function toggleViews(activeView) {
+    const views = ['original', 'loading', 'results', 'create', 'insert'];
+    views.forEach(view => {
+        const viewElement = document.querySelector(`.${view}-view`);
+        viewElement.style.display = view === activeView ? 'block' : 'none';
+    });
+}
 
 function showOriginalView() {
-    document.querySelector('.original-view').style.display = 'block';
-    document.querySelector('.loading-view').style.display = 'none';
-    document.querySelector('.results-view').style.display = 'none';
-    document.querySelector('.create-view').style.display = 'none';
-    document.querySelector('.insert-view').style.display = 'none';
+    toggleViews('original');
 }
 
 function showLoadingView() {
-    document.querySelector('.original-view').style.display = 'none';
-    document.querySelector('.loading-view').style.display = 'block';
-    document.querySelector('.results-view').style.display = 'none';
-    document.querySelector('.create-view').style.display = 'none';
-    document.querySelector('.insert-view').style.display = 'none';
+    toggleViews('loading');
 }
 
 function showResultsView(data) {
-    document.querySelector('.original-view').style.display = 'none';
-    document.querySelector('.loading-view').style.display = 'none';
-    document.querySelector('.results-view').style.display = 'block';
-    document.querySelector('.create-view').style.display = 'none';
-    document.querySelector('.insert-view').style.display = 'none';
-
+    toggleViews('results');
     const resultJsonElement = document.querySelector('.result-json');
     if (data) {
         resultJsonElement.textContent = data;
@@ -202,17 +174,9 @@ function showResultsView(data) {
 }
 
 function showCreateView() {
-    document.querySelector('.original-view').style.display = 'none';
-    document.querySelector('.loading-view').style.display = 'none';
-    document.querySelector('.results-view').style.display = 'none';
-    document.querySelector('.create-view').style.display = 'block';
-    document.querySelector('.insert-view').style.display = 'none';
+    toggleViews('create');
 }
 
 function showInsertView() {
-    document.querySelector('.original-view').style.display = 'none';
-    document.querySelector('.loading-view').style.display = 'none';
-    document.querySelector('.results-view').style.display = 'none';
-    document.querySelector('.create-view').style.display = 'none';
-    document.querySelector('.insert-view').style.display = 'block';
+    toggleViews('insert');
 }
