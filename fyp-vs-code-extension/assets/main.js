@@ -52,11 +52,11 @@ function handleSubmitInsertButtonClick() {
             const repoInput = item.querySelector('input[placeholder="Repository Name"]');
             const commitInput = item.querySelector('input[placeholder="Commit Hash"]');
             return {
-                repository: repoInput ? repoInput.value : '',
-                commit: commitInput ? commitInput.value : ''
+                repoName: repoInput ? repoInput.value : '',
+                commitHash: commitInput ? commitInput.value : ''
             };
         })
-        .filter(({ repository, commit }) => repository && commit);
+        .filter(({ repoName, commitHash }) => repoName && commitHash);
 
     if (repositories.length === 0) {
         vscode.postMessage({ command: 'error', text: 'Insert at least one repository and commit' });
