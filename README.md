@@ -14,9 +14,9 @@ After pressing `F5`, if the extension is not automatically there then it could b
 
 ## Setup SSH Tunnel to Connect from Outside Eduroam
 
-As the web server back-end only works within Eduroams firewall you will need to setup a SSH tunnel in order to interact to the server from outside the network. Without this any requests made from the extension will timeout after 10 seconds (This is the default action by the extension).
+The web server only works within Eduroams firewall. Therefore, you will need to setup an SSH tunnel in order to interact to the server from outside Eduroam. Without this any requests made from the extension will timeout after 10 seconds (This is the default action by the extension).
 
-This can be setup by adding the following to the `.ssh/config` file on your machine:
+This can be setup by first adding the following to the `.ssh/config` file on your local machine:
 
 ```[bash]
 host knuckles
@@ -29,7 +29,7 @@ host fyp
    ProxyJump knuckles
 ```
 
-Once you have done this, you can open a tunnel on your machines localhost that will forward requests to the web server using the following command:
+Once you have done this, you can open a tunnel on your machines `localhost` that will forward requests to the web server using the following command:
 
 ```[bash]
 ssh -L 8888:localhost:80 fyp
