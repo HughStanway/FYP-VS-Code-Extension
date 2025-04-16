@@ -10,15 +10,11 @@ Press `F5` while you have the file `extension.ts` openend to load a new developm
 
 ### Issue with Extension Not Being Installed
 
-After pressing `F5`, if the extension is not automatically there then it could be due to an missmatch with the version of VS Code you have installed locally and the requirements of the extension. To fix this, check the `package.json` file and make sure that `engines.vscode` version is compatible with your installed version of VS Code.
+After pressing `F5`, if the extension is not automatically there then it could be due to an missmatch with the version of VS Code you have installed locally and the requirements of the extension. To fix this, check the `package.json` file and make sure that `engines.vscode` version is compatible with your installed version of VS Code. More information about this can be found here: <https://code.visualstudio.com/api/get-started/your-first-extension>
 
 ## Setup SSH Tunnel to Connect from Outside Eduroam
 
 As the web server back-end only works within Eduroams firewall you will need to setup a SSH tunnel in order to interact to the server from outside the network. Without this any requests made from the extension will timeout after 10 seconds (This is the default action by the extension).
-
-This can be setup as follows:
-
-### Setup ProxyJump Between your Machine and Web Server
 
 This can be setup by adding the following to the `.ssh/config` file on your machine:
 
