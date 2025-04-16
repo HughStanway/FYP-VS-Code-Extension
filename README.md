@@ -15,7 +15,7 @@ node -v
 Then, you can install all the required dependencies using:
 
 ```[bash]
-npm install
+cd fyp-vs-code-extension && npm install
 ```
 
 ## Running the extension
@@ -56,5 +56,5 @@ Now any requests made to `localhost:8888` will be forwarded to `fyp:80` via knuc
 Development of the project is managed by esbuild (<https://esbuild.github.io/>). After making any modification to the projects code you must recompile the project before running it again. This is done by running:
 
 ```[bash]
-npm run compile
+cd fyp-vs-code-extension && npm run compile
 ```
