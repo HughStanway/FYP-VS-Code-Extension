@@ -6,7 +6,7 @@ Note: This is the source code for the extension and therefore must be compiled a
 
 ## Running the extension
 
-Press `F5` while you have the file `extension.ts` openend to load a new development window with the extension installed and running.
+To run, press `F5` while you have the file `extension.ts` open in order to load a new development window with the extension installed and running.
 
 ### Issue with Extension Not Being Installed
 
