@@ -1,5 +1,39 @@
 const vscode = acquireVsCodeApi();
 
+let currentResults = [];
+let currentIndex = 0;
+
+function updateResultDisplay() {
+    const resultJsonElement = document.querySelector('.result-json');
+    const resultCounter = document.querySelector('.result-counter');
+
+    if (!currentResults.length) {
+        resultJsonElement.textContent = 'No results found';
+        resultCounter.textContent = '';
+        return;
+    }
+
+    resultJsonElement.textContent = currentResults[currentIndex].snippet;
+    resultCounter.textContent = `Result ${currentIndex + 1} of ${currentResults.length}`;
+    
+    document.querySelector('.prev-button').disabled = currentIndex === 0;
+    document.querySelector('.next-button').disabled = currentIndex === currentResults.length - 1;
+}
+
+function showNextResult() {
+    if (currentIndex < currentResults.length - 1) {
+        currentIndex++;
+        updateResultDisplay();
+    }
+}
+
+function showPreviousResult() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateResultDisplay();
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     setupAutoExpand();
     setupButtonClickListener();
@@ -8,6 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener('click', (event) => {
     if (event.target?.classList.contains('back-button')) {
       showOriginalView();
+    } else if (event.target.classList.contains('prev-button')) {
+        showPreviousResult();
+    } else if (event.target.classList.contains('next-button')) {
+        showNextResult();
     }
 });
 
@@ -107,7 +145,10 @@ window.addEventListener('message', (event) => {
             showLoadingView();
             break;
         case 'showResults':
-            showResultsView(message.data);
+            currentResults = message.data;
+            currentIndex = 0;
+            toggleViews('results');
+            updateResultDisplay();
             break;
         case 'showOriginal':
             showOriginalView();

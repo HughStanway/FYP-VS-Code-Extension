@@ -133,3 +133,19 @@ textarea::placeholder {
     overflow-y: hidden;
     resize: none;
 }
+
+.navigation-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.result-counter {
+    margin: 0 10px;
+    font-size: 0.9em;
+}
+
+.prev-button, .next-button {
+    padding: 5px 10px;
+}

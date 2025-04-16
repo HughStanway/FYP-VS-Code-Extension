@@ -83,7 +83,12 @@ export class Sidebar implements vscode.WebviewViewProvider {
               </div>
 
               <div class="content results-view" style="display: none;">
-                <p>Most similar code snippet found:</p>
+                <p>Most similar code snippets:</p>
+                <div class="navigation-buttons">
+                  <button class="prev-button">Previous</button>
+                  <span class="result-counter"></span>
+                  <button class="next-button">Next</button>
+                </div>
                 <pre class="result-json"></pre>
                 <button class="back-button">Back to search</button>
               </div>

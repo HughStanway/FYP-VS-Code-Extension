@@ -31,14 +31,14 @@ async function makeRequest(endpoint: string, data: Record<string, any>) {
     return response.json();
 }
 
-export async function query(inputText: string): Promise<string> {
+export async function query(inputText: string): Promise<{ snippet: string }[]> {
     try {
         const { url, collectionName } = await getEndpoint();
         const fullUrl = `${url}/query`;
         const data = { payload: inputText, collectionName };
         
         const result = await makeRequest(fullUrl, data) as { response: { snippet: string }[] };
-        return result.response?.[0]?.snippet ?? '';
+        return result.response ?? [];
     } catch (error) {
         console.error('Error making query request:', error);
         throw error;
