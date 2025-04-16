@@ -22,7 +22,7 @@ This can be setup as follows:
 
 This can be setup by adding the following to the `.ssh/config` file on your machine:
 
-'''
+```[bash]
 host knuckles
    HostName knuckles.cs.ucl.ac.uk
    User [Your User Name]
@@ -31,12 +31,12 @@ host fyp
    HostName hstanway-fyp.cs.ucl.ac.uk
    User [Your User Name]
    ProxyJump knuckles
-'''
+```
 
 Once you have done this, you can open a tunnel on your machines localhost that will forward requests to the web server using the following command:
 
-'''
+```[bash]
 ssh -L 8888:localhost:80 fyp
-'''
+```
 
 Now any requests made to `localhost:8888` will to fyp:80 via knuckles. **Note:** Once you close the SSH session the tunnel will close and thus the requets will no longer work.
