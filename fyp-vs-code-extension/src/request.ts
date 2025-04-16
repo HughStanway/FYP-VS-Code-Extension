@@ -16,93 +16,51 @@ async function getEndpoint() {
     return { url, collectionName };
 }
 
-async function makeQuery(url: string, data: Record<string, any>) {
-    const response = await fetch(url, {
+async function makeRequest(endpoint: string, data: Record<string, any>) {
+    const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     });
 
     if (!response.ok) {
-        const errorBody = await response.json() as { error: number, message: string };
-        throw new Error(`${errorBody.message}`);
+        const errorBody = await response.json() as { message: string };
+        throw new Error(errorBody.message);
     }
 
-    return response;
+    return response.json();
 }
 
-export async function query(inputText: string): Promise<any> {
+export async function query(inputText: string): Promise<{ snippet: string }[]> {
     try {
-        // Setup request parameters
         const { url, collectionName } = await getEndpoint();
-        const fullUrl = url + "/query";
-        const data = {
-            payload: inputText,
-            collectionName: collectionName,
-        };
+        const fullUrl = `${url}/query`;
+        const data = { payload: inputText, collectionName };
         
-        // Make "Query" request
-        const response = await makeQuery(fullUrl, data);
-
-        // Extract query respose
-        const result = await response.json() as { response: { snippet: string; certainty: number }[] };
-        
-        // Extract most similar code snippet
-        if (Array.isArray(result.response) && result.response.length > 0) {
-            const firstItem = result.response[0]; // Get first response (most similar)
-            const snippet = firstItem.snippet; // Extract the snippet
-            return snippet;
-        }
+        const result = await makeRequest(fullUrl, data) as { response: { snippet: string }[] };
+        return result.response ?? [];
     } catch (error) {
-        console.error('Error making POST request:', error);
+        console.error('Error making query request:', error);
         throw error;
     }
 }
 
-export async function create(newCollectionName: string): Promise<any> {
+export async function create(newCollectionName: string) {
     try {
-        // Setup request parameters
         const { url } = await getEndpoint();
-        const fullUrl = url + "/create";
-        const data = {
-            collectionName: newCollectionName,
-        };
-        
-        // Make "Create" request
-        const response = await makeQuery(fullUrl, data);
-        
-        // Extract query response
-        const result = await response.json() as {message: string};
-        return result;
-        
+        return await makeRequest(`${url}/create`, { collectionName: newCollectionName });
     } catch (error) {
-        console.error('Error making POST request:', error);
+        console.error('Error making create request:', error);
         throw error;
     }
 }
 
-
-export async function insert(newRepositories: Array<{ repository: string; commit: string }>): Promise<any> {
+export async function insert(newRepositories: Array<{ repository: string; commit: string }>) {
     try {
-        // Setup request parameters
         const { url, collectionName } = await getEndpoint();
-        const fullUrl = url + "/insert";
-        const data = {
-            collectionName: collectionName,
-            repositories: newRepositories,
-        };
-        
-        // Make "Create" request
-        const response = await makeQuery(fullUrl, data);
-        
-        // Extract query response
-        const result = await response.json() as {message: string};
-        return result;
-        
+        return await makeRequest(`${url}/insert`, { collectionName, repositories: newRepositories });
     } catch (error) {
-        console.error('Error making POST request:', error);
+        console.error('Error making insert request:', error);
         throw error;
     }
 }
