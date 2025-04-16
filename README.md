@@ -4,6 +4,20 @@ Prototype Code Similarity Search VS Code extension for my FYP. This is the sourc
 
 Note: This is the source code for the extension and therefore must be compiled and run using a development build of VS Code.
 
+## Install Dependencies
+
+Before you can run the extension you must install the required dependencies. First, ensure you have Node.js 20+ installed on your local machine. You can check your current version with:
+
+```[bash]
+node -v
+```
+
+Then, you can install all the required dependencies using:
+
+```[bash]
+npm install
+```
+
 ## Running the extension
 
 To run, press `F5` while you have the file `extension.ts` open in order to load a new development window with the extension installed and running.
@@ -36,3 +50,11 @@ ssh -L 8888:localhost:80 fyp
 ```
 
 Now any requests made to `localhost:8888` will be forwarded to `fyp:80` via knuckles. Finally, once you close the SSH session the tunnel will close and thus the requets will no longer work.
+
+## Development
+
+Development of the project is managed by esbuild (<https://esbuild.github.io/>). After making any modification to the projects code you must recompile the project before running it again. This is done by running:
+
+```[bash]
+npm run compile
+```
