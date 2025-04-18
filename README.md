@@ -34,7 +34,7 @@ Before usage please configure the extension in your VS Code settings. This can b
 * Under `Code Search: URL` enter the full URL of the web server. A demo version of this project can be used by entering the URL `http://hstanway-fyp.ucl.ac.uk` (Please see section 'Setup SSH Tunnel to Connect from Outside Eduroam' if you are using this demo from outside Eduroam).
 * Under `Code Search: Collection Name` enter the database collection. (A demo collection has been created under the name `Apache` which contains methods taken from the Apache commons io and lang libraries)
 
-Once this is done you can use the extension by clicking the 'Code Search' extension from the VS Code sidebar. Currently it supports the following instructions:
+Once this is done you can use the extension by clicking the 'Code Search' tab from the VS Code sidebar. Currently, it supports the following instructions:
 
 * You can make code searches using the search bar at the top of the page. This will query and return the top 5 most similar results from the collection on the server.
 * You can create new collections by navigating to the `New Collection` page and entering a new collection name. To use this new collection you will need to reconfigure this in the VS Code settings.
@@ -63,7 +63,7 @@ Once you have done this, you can open a tunnel on your machines `localhost` that
 ssh -L 8888:localhost:80 fyp
 ```
 
-Now any requests made to `localhost:8888` will be forwarded to `fyp:80` via knuckles. Finally, once you close the SSH session the tunnel will close and thus the requets will no longer work.
+Now any requests made to `localhost:8888` will be forwarded to `fyp:80` via knuckles. If you are using the demo version you should now make API requests to `http://localhost:8888` instead of `http://hstanway-fyp.cs.ucl.ac.uk`. Finally, once you close the SSH session the tunnel will close and thus the requets will no longer work. 
 
 ## 5. Development
 
