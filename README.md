@@ -1,6 +1,6 @@
 # FYP-VS-Code-Extension
 
-This is the source code for a proof-of-concept VS Code extension designed to connect with the corresponding Code Similarity Search web server. The extension provides a user-friendly interface that allows users to perform code search queries against a vector database directly from within VS Code.
+This is the source code for a proof-of-concept VS Code extension designed to connect with the corresponding Code Similarity Search web server. The extension provides a user-friendly interface that allows users to perform code search queries against a stored collection of code snippets from within VS Code.
 
 Note: This is the source code for the extension and therefore must be compiled and run using a development build of VS Code.
 
