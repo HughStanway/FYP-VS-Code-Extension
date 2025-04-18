@@ -22,7 +22,7 @@ cd fyp-vs-code-extension && npm install
 
 To run, press `F5` while you have the file `extension.ts` open. This will open a new VS Code window with the extension installed.
 
-### Issue with Extension Not Being Installed
+### Issue with Extension Not Appearing
 
 After pressing `F5`, if the extension doesn't appear automatically, it may be due to a mismatch between your installed version of VS Code and the version specified in the extension's requirements. To resolve this, open the `package.json` file and ensure that the `engines.vscode` field is compatible with your local VS Code version. You can find more information about this here: <https://code.visualstudio.com/api/get-started/your-first-extension>
 
