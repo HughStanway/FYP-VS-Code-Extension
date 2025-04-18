@@ -63,7 +63,7 @@ Once you have done this, you can open a tunnel on your machines `localhost` that
 ssh -L 8888:localhost:80 fyp
 ```
 
-Now any requests made to `localhost:8888` will be forwarded to `fyp:80` via knuckles. If you are using the demo version you should now make API requests to `http://localhost:8888` instead of `http://hstanway-fyp.cs.ucl.ac.uk`. Finally, once you close the SSH session the tunnel will close and thus the requets will no longer work. 
+Now any requests made to `localhost:8888` will be forwarded to `fyp:80` via knuckles. If you are using the demo version you should now set the URL endpoint to `http://localhost:8888` instead of `http://hstanway-fyp.cs.ucl.ac.uk`. Finally, once you close the SSH session the tunnel will close and thus the requets will no longer work. 
 
 ## 5. Development
 
