@@ -20,7 +20,7 @@ cd fyp-vs-code-extension && npm install
 
 ## 2. Running the extension
 
-To run, press `F5` while you have the file `extension.ts` open in order to load a new development window with the extension installed and running.
+To run, press `F5` while you have the file `extension.ts` open. This will open a new VS Code window with the extension installed.
 
 ### Issue with Extension Not Being Installed
 
