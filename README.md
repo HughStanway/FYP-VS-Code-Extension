@@ -24,7 +24,7 @@ To run, press `F5` while you have the file `extension.ts` open. This will open a
 
 ### Issue with Extension Not Being Installed
 
-After pressing `F5`, if the extension is not automatically there then it could be due to an missmatch with the version of VS Code you have installed locally and the requirements of the extension. To fix this, check the `package.json` file and make sure that `engines.vscode` version is compatible with your installed version of VS Code. More information about this can be found here: <https://code.visualstudio.com/api/get-started/your-first-extension>
+After pressing `F5`, if the extension doesn't appear automatically, it may be due to a mismatch between your installed version of VS Code and the version specified in the extension's requirements. To resolve this, open the `package.json` file and ensure that the `engines.vscode` field is compatible with your local VS Code version. You can find more information about this here: <https://code.visualstudio.com/api/get-started/your-first-extension>
 
 ## 3. Usage Instructions
 
